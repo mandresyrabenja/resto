@@ -1,0 +1,49 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : 17 févr. 2022, 22:20:31
+    Author     : Maphie
+*/
+.tete{
+   background-color: lightgray;
+   padding: 15px;
+}
+.tete .glyphicon{
+    color :white;
+    border-color: black;
+}
+
+.body{
+    border-style: solid;
+    
+}
+.menu{
+    border-right-style: solid;
+    border-right-color: black;
+}
+
+a{
+    text-decoration: none; 
+    color: darksalmon;
+}
+
+.Menu{
+    border-style: solid;
+    border-color: black;
+    padding: 20px;
+    margin-left: 50px;
+    margin-top: 10px;
+}
+
+.table{
+    margin-top: 20px;
+}
+.footer{
+    margin-top: 20px;
+    margin-bottom: 10px;
+    border-style: solid;
+    padding: 25px;
+}
