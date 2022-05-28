@@ -25,7 +25,9 @@ import model.TypePlat;
 @WebServlet(name = "ListePrixRevient", urlPatterns = {"/ListePrixRevient"})
 public class ListePrixRevient extends HttpServlet {
 
-    /**
+	private static final long serialVersionUID = 1L;
+
+	/**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
      *
@@ -34,14 +36,15 @@ public class ListePrixRevient extends HttpServlet {
      * @throws ServletException if a servlet-specific error occurs 
      * @throws IOException if an I/O error occurs
      */
-    protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException, Exception {
-        response.setContentType("text/html;charset=UTF-8");
+    protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, Exception {
+        
+    	response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
             Plat[] listePlats = new Plat().getListePrixRevient();
             request.setAttribute("listePrixRevient", listePlats);
-            RequestDispatcher dispat = request.getRequestDispatcher("listePrixRevient.jsp");
-            dispat.forward(request,response);
+            
+            request.setAttribute("page", "listePrixRevient");
+            request.getRequestDispatcher("admin/template.jsp").forward(request,response);
         }
     }
 
