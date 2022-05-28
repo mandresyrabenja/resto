@@ -24,7 +24,9 @@ import model.IngredientConsome;
 @WebServlet(name = "IngredientCosomeServlet", urlPatterns = {"/IngredientCosomeServlet"})
 public class IngredientCosomeServlet extends HttpServlet {
 
-    /**
+	private static final long serialVersionUID = 1L;
+
+	/**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
      *
@@ -39,19 +41,22 @@ public class IngredientCosomeServlet extends HttpServlet {
         PrintWriter out = response.getWriter();
         try {
             if(request.getParameter("date1") == null && request.getParameter("date2")==null){
-                response.sendRedirect("IngredientConsome.jsp");
+                request.setAttribute("page", "IngredientConsome");
+                request.getRequestDispatcher("admin/template.jsp").forward(request,response);
             }
             else {
                 String date1 = request.getParameter("date1");
                 String date2 = request.getParameter("date2");
-                 IngredientConsome ingredient = new IngredientConsome();
+                
+                IngredientConsome ingredient = new IngredientConsome();
                 IngredientConsome[] ingredientConsome = ingredient.getIngredientConsomes(date1, date2);
                 request.setAttribute("ingredientConsome", ingredientConsome);
+                
                 double sommeIngredientConsome = ingredient.sommeIngredientConsome(ingredientConsome);
-                request.setAttribute("ingredientConsome", ingredientConsome);
                 request.setAttribute("sommeIngredientConsome", sommeIngredientConsome);
-                RequestDispatcher dispat = request.getRequestDispatcher("IngredientConsome.jsp");
-                dispat.forward(request,response);
+                
+                request.setAttribute("page", "IngredientConsome");
+                request.getRequestDispatcher("admin/template.jsp").forward(request,response);
             }
         }catch(Exception e){
         }
