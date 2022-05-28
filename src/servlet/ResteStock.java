@@ -25,7 +25,9 @@ import model.StockIngredient;
 @WebServlet(name = "ResteStock", urlPatterns = {"/ResteStock"})
 public class ResteStock extends HttpServlet {
 
-    /**
+	private static final long serialVersionUID = 1L;
+
+	/**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
      *
@@ -39,9 +41,11 @@ public class ResteStock extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
             StockIngredient[] stock = new StockIngredient().getStock();
+            
             request.setAttribute("resteStock", stock);
-            RequestDispatcher dispat = request.getRequestDispatcher("StockIngredient.jsp");
-            dispat.forward(request,response);
+            request.setAttribute("page", "StockIngredient");
+            
+            request.getRequestDispatcher("admin/template.jsp").forward(request, response);
         }
     }
 
