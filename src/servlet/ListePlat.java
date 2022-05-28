@@ -36,7 +36,9 @@ import model.TypePlat;
 @WebServlet(name = "ListePlat", urlPatterns = {"/ListePlat"})
 public class ListePlat extends HttpServlet {
 
-    /**
+	private static final long serialVersionUID = 1L;
+
+	/**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
      *
@@ -45,9 +47,13 @@ public class ListePlat extends HttpServlet {
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
-    protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException, Exception {
-        response.setContentType("text/html;charset=UTF-8");
+    protected void processRequest(
+    		HttpServletRequest request, 
+    		HttpServletResponse response)
+            throws ServletException, IOException, Exception 
+    {
+        
+    	response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
             HttpSession session = request.getSession();
             if(session.getAttribute("idServeur") == null) {
@@ -83,11 +89,12 @@ public class ListePlat extends HttpServlet {
             
             String idTypePlat = request.getParameter("idTypePlat");
             Plat[] listePlats = new Plat().getListePlats(idTypePlat);
-            TypePlat[] typePlat = new TypePlat().getTypePlat();
             request.setAttribute("listePlats", listePlats);
+            
+            TypePlat[] typePlat = new TypePlat().getTypePlat();
             request.setAttribute("typePlat", typePlat);
-            RequestDispatcher dispat = request.getRequestDispatcher("listePlats.jsp");
-            dispat.forward(request,response);
+            
+            request.getRequestDispatcher("listePlats.jsp").forward(request,response);
         }
     }
 

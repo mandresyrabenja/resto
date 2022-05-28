@@ -25,7 +25,9 @@ import model.Recette;
 @WebServlet(name = "Recette", urlPatterns = {"/Recette"})
 public class RecetteServlet extends HttpServlet {
 
-    /**
+	private static final long serialVersionUID = 1L;
+
+	/**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
      *
@@ -35,7 +37,8 @@ public class RecetteServlet extends HttpServlet {
      * @throws IOException if an I/O error occurs
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException, Exception {
+            throws ServletException, IOException, Exception 
+    {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
             String idPlat = request.getParameter("idPlat");
@@ -49,7 +52,7 @@ public class RecetteServlet extends HttpServlet {
                 }
 
              out.println
-             ("<div class='modal-content'>"+
+             ("<div class='modal-content col-md-12'>"+
              "<div class='modal-header' >"+
                  "<h3 class='modal-title' id='exampleModalLabel'>"+
                  plat.getNomPlat()
