@@ -13,7 +13,7 @@ let navLinks = document.querySelectorAll('header .navbar a');
 
 window.onscroll = () => {
 
-    menu.classList.remove('fa-times');
+    // menu.classList.remove('fa-times');
     navbar.classList.remove('active');
 
     section.forEach(sec => {
