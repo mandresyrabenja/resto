@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package servlet;
+package servlet.admin;
 
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -16,13 +16,14 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import model.IngredientConsome;
+import model.StockIngredient;
 
 /**
  *
  * @author Vola
  */
-@WebServlet(name = "IngredientCosomeServlet", urlPatterns = {"/IngredientCosomeServlet"})
-public class IngredientCosomeServlet extends HttpServlet {
+@WebServlet(name = "ResteStock", urlPatterns = {"/ResteStock"})
+public class ResteStock extends HttpServlet {
 
 	private static final long serialVersionUID = 1L;
 
@@ -38,27 +39,13 @@ public class IngredientCosomeServlet extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException, Exception {
         response.setContentType("text/html;charset=UTF-8");
-        PrintWriter out = response.getWriter();
-        try {
-            if(request.getParameter("date1") == null && request.getParameter("date2")==null){
-                request.setAttribute("page", "IngredientConsome");
-                request.getRequestDispatcher("admin/template.jsp").forward(request,response);
-            }
-            else {
-                String date1 = request.getParameter("date1");
-                String date2 = request.getParameter("date2");
-                
-                IngredientConsome ingredient = new IngredientConsome();
-                IngredientConsome[] ingredientConsome = ingredient.getIngredientConsomes(date1, date2);
-                request.setAttribute("ingredientConsome", ingredientConsome);
-                
-                double sommeIngredientConsome = ingredient.sommeIngredientConsome(ingredientConsome);
-                request.setAttribute("sommeIngredientConsome", sommeIngredientConsome);
-                
-                request.setAttribute("page", "IngredientConsome");
-                request.getRequestDispatcher("admin/template.jsp").forward(request,response);
-            }
-        }catch(Exception e){
+        try (PrintWriter out = response.getWriter()) {
+            StockIngredient[] stock = new StockIngredient().getStock();
+            
+            request.setAttribute("resteStock", stock);
+            request.setAttribute("page", "StockIngredient");
+            
+            request.getRequestDispatcher("admin/template.jsp").forward(request, response);
         }
     }
 
@@ -77,7 +64,7 @@ public class IngredientCosomeServlet extends HttpServlet {
         try {
             processRequest(request, response);
         } catch (Exception ex) {
-            Logger.getLogger(IngredientCosomeServlet.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(ResteStock.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
@@ -95,7 +82,7 @@ public class IngredientCosomeServlet extends HttpServlet {
         try {
             processRequest(request, response);
         } catch (Exception ex) {
-            Logger.getLogger(IngredientCosomeServlet.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(ResteStock.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
