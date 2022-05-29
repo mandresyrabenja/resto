@@ -5,6 +5,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.List;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -14,6 +15,8 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import database.DBConnection;
+import database.DatabaseAccess;
+import model.commande.PlatCommande;
 
 /**
  * Servlet implementation class ValiderCommande
@@ -41,9 +44,19 @@ public class ValiderCommande extends HttpServlet {
 					PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
 				preparedStatement.setString(1, idCommande);
 				preparedStatement.executeUpdate();
-			
 
-				// Affichage du message de success
+				// Récuperation des plats du commande pour afficher l'addition
+				List<PlatCommande> platsDuCommande = DatabaseAccess.find(
+						String.format("SELECT * FROM plat_commande WHERE idcommande = '%s'", idCommande), 
+						PlatCommande.class, 
+						connection);
+				request.setAttribute("commandes", platsDuCommande);
+				
+				// Montant total de l'addition
+				double montantAddition = platsDuCommande.stream()
+					.reduce(0.0, (partial, commande) -> partial + (commande.getPrixplat() * commande.getQuantite()), Double::sum );
+				request.setAttribute("montantAddition", montantAddition);
+
 				request.getRequestDispatcher("commande/commande-valide.jsp").forward(request, response);
 			} catch (SQLException e) {
 				e.printStackTrace();
