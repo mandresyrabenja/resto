@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package servlet;
+package servlet.commande;
 
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -31,7 +31,9 @@ import model.DetailsCommande;
 @WebServlet(name = "CommanderPlat", urlPatterns = {"/CommanderPlat"})
 public class CommanderPlat extends HttpServlet {
 
-    /**
+	private static final long serialVersionUID = 1L;
+
+	/**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
      *

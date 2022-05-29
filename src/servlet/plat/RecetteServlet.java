@@ -3,29 +3,27 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package servlet;
+package servlet.plat;
 
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-
-import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import model.Plat;
+import model.Recette;
 
-import model.Serveur;
-import model.Tablee;
 
 /**
  *
  * @author Vola
  */
-@WebServlet(name = "ChoixServeur", urlPatterns = {"/ChoixServeur"})
-public class ChoixServeur extends HttpServlet {
+@WebServlet(name = "Recette", urlPatterns = {"/Recette"})
+public class RecetteServlet extends HttpServlet {
 
 	private static final long serialVersionUID = 1L;
 
@@ -39,15 +37,36 @@ public class ChoixServeur extends HttpServlet {
      * @throws IOException if an I/O error occurs
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException, Exception {
+            throws ServletException, IOException, Exception 
+    {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
-            Serveur[] listeServeurs = new Serveur().getServeurs();
-            Tablee[] listeTables = new Tablee().getTables();
-            request.setAttribute("listeServeurs", listeServeurs);
-            request.setAttribute("listeTables", listeTables);
-            RequestDispatcher dispat = request.getRequestDispatcher("ChoixServeur.jsp");
-            dispat.forward(request,response);
+            String idPlat = request.getParameter("idPlat");
+            Plat plat = new Plat().getPlatById(idPlat);
+            Recette recette = new Recette().getRecette(idPlat);
+
+            String[] li = recette.getRecette().split(",");
+            String element = "";
+            for(int i=0;i<li.length;i++){
+                element+="<li style='font-size:25px' >"+li[i]+"</li>";
+                }
+
+             out.println
+             ("<div class='modal-content col-md-12'>"+
+             "<div class='modal-header' >"+
+                 "<h3 class='modal-title' id='exampleModalLabel'>"+
+                 plat.getNomPlat()
+                 +"</h3>"+
+                 "<button type='button' class='btn-close' data-bs-dismiss='modal' aria-label='Close'></button>"+
+                 "</div>"+
+                 "<div style='padding-top:25px'>"+
+                 "<ul>"+
+                         element+
+                "</ul>"+
+                 "</div>"+
+             "</div>"
+         );
+                
         }
     }
 
@@ -66,7 +85,7 @@ public class ChoixServeur extends HttpServlet {
         try {
             processRequest(request, response);
         } catch (Exception ex) {
-            Logger.getLogger(ChoixServeur.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(RecetteServlet.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
@@ -84,7 +103,7 @@ public class ChoixServeur extends HttpServlet {
         try {
             processRequest(request, response);
         } catch (Exception ex) {
-            Logger.getLogger(ChoixServeur.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(RecetteServlet.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 

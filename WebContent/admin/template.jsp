@@ -40,6 +40,7 @@
         <a <c:if test="${page == 'StockIngredient' }">class="active"</c:if> href="${pageContext.request.contextPath }/ResteStock">Etat de stock</a>
         <a <c:if test="${page == 'IngredientConsome' }">class="active"</c:if> href="${pageContext.request.contextPath }/IngredientCosomeServlet">Ingrédients consommés</a>
         <a <c:if test="${page == 'listePrixRevient' }">class="active"</c:if> href="${pageContext.request.contextPath }/ListePrixRevient">Liste des prix de revient</a>
+        <a <c:if test="${page == 'PourBoire' }">class="active"</c:if> href="${pageContext.request.contextPath }/PourboireServeur">Pourboire des serveurs</a>
     </nav>
 
 </header>

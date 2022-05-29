@@ -3,27 +3,26 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package servlet;
+package servlet.serveur;
 
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import model.Plat;
-import model.Recette;
-
+import model.ServeurPourBoire;
 
 /**
  *
  * @author Vola
  */
-@WebServlet(name = "Recette", urlPatterns = {"/Recette"})
-public class RecetteServlet extends HttpServlet {
+@WebServlet(name = "PourboireServeur", urlPatterns = {"/PourboireServeur"})
+public class PourboireServeur extends HttpServlet {
 
 	private static final long serialVersionUID = 1L;
 
@@ -36,37 +35,20 @@ public class RecetteServlet extends HttpServlet {
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
-    protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException, Exception 
-    {
+    protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, Exception {
         response.setContentType("text/html;charset=UTF-8");
+        
         try (PrintWriter out = response.getWriter()) {
-            String idPlat = request.getParameter("idPlat");
-            Plat plat = new Plat().getPlatById(idPlat);
-            Recette recette = new Recette().getRecette(idPlat);
-
-            String[] li = recette.getRecette().split(",");
-            String element = "";
-            for(int i=0;i<li.length;i++){
-                element+="<li style='font-size:25px' >"+li[i]+"</li>";
-                }
-
-             out.println
-             ("<div class='modal-content col-md-12'>"+
-             "<div class='modal-header' >"+
-                 "<h3 class='modal-title' id='exampleModalLabel'>"+
-                 plat.getNomPlat()
-                 +"</h3>"+
-                 "<button type='button' class='btn-close' data-bs-dismiss='modal' aria-label='Close'></button>"+
-                 "</div>"+
-                 "<div style='padding-top:25px'>"+
-                 "<ul>"+
-                         element+
-                "</ul>"+
-                 "</div>"+
-             "</div>"
-         );
-                
+            String date1 = request.getParameter("date1");
+            String date2 = request.getParameter("date2");
+            
+            if( (date1 != null) && (date2 != null) ) {
+            	ServeurPourBoire[] serveurPourBoire = new ServeurPourBoire().getPouboire(date1, date2);
+                request.setAttribute("serveurPourBoire", serveurPourBoire);
+            }
+            
+            request.setAttribute("page", "PourBoire");
+            request.getRequestDispatcher("admin/template.jsp").forward(request,response);
         }
     }
 
@@ -85,7 +67,7 @@ public class RecetteServlet extends HttpServlet {
         try {
             processRequest(request, response);
         } catch (Exception ex) {
-            Logger.getLogger(RecetteServlet.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(PourboireServeur.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
@@ -103,7 +85,7 @@ public class RecetteServlet extends HttpServlet {
         try {
             processRequest(request, response);
         } catch (Exception ex) {
-            Logger.getLogger(RecetteServlet.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(PourboireServeur.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
