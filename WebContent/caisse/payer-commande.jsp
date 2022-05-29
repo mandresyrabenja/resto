@@ -47,43 +47,28 @@
 		<div class="container">
 			<div class="row">
 				<div class="col-md-12 text-center">
-					<h1>Liste des commandes non payés</h1>
+					<h1>Payer le commande "${commande.idCommande }"</h1>
 				</div>
 			</div>
 			<div class="row">
-				<div class="col-md-12">
-					<table class="table table-success">
-					  <thead>
-					    <tr>
-					      <th scope="col">Date</th>
-					      <th scope="col">Commande</th>
-					      <th scope="col">Table</th>
-					      <th scope="col">Addition</th>
-					      <th scope="col">Paye</th>
-					      <th scope="col">Restant</th>
-					      <th scope="col">Opération</th>
-					    </tr>
-					  </thead>
-					  <tbody>
-					  	<c:forEach items="${commandeNonPayes }" var="commandeNonPaye">
-					  		<tr>
-						      <td>${commandeNonPaye.dateCommande }</td>
-						      <td>${commandeNonPaye.idCommande }</td>
-						      <td>${commandeNonPaye.idTable }</td>
-						      <td>${commandeNonPaye.addition }Ar</td>
-						      <td>${commandeNonPaye.paye }Ar</td>
-						      <td>${commandeNonPaye.addition - commandeNonPaye.paye }Ar</td>
-						      <td>
-						      	<a class="btn btn success"
-						      		 href="${pageContext.request.contextPath }/payer-commande?idCommande=${commandeNonPaye.idCommande }">
-						      		Payer
-					      		</a>
-						      </td>
-						    </tr>
-					  	</c:forEach>
-					  </tbody>
-					</table>
-				</div>
+				<form action="${pageContext.request.contextPath }/insert-paiement">
+				  <div class="form-group" style="display: none;">
+				    <input type="text" class="form-control" id="idCommande" name="idCommande" value="${commande.idCommande }">
+				  </div>
+				  <div class="form-group">
+				    <label for="sommepaye">Montant</label>
+				    <input type="number" class="form-control" id="sommepaye" name="sommepaye" value="${commande.addition - commande.paye }" max="${commande.addition - commande.paye }">
+				  </div>
+				  <div class="form-group">
+				    <label for="idtypepaiement">Type de paiement</label>
+				    <select class="form-control" id="idtypepaiement" name="idtypepaiement">
+				      <c:forEach items="${typePaiements }" var="typePaiement">
+					      <option value="${typePaiement.idtypepaiement }">${typePaiement.nompaiement }</option>
+				      </c:forEach>
+				    </select>
+				  </div>
+				  <button type="submit" class="btn btn-success">Payer</button>
+				</form>
 			</div>
 		</div>
     
