@@ -46,29 +46,12 @@
 
 		<div class="container">
 			<div class="row">
-				<div class="col-md-12">
-					<table class="table table-success">
-					  <thead>
-					    <tr>
-					      <th scope="col">Plat</th>
-					      <th scope="col">Nombre</th>
-					    </tr>
-					  </thead>
-					  <tbody>
-					  	<c:forEach items="${commandes }" var="commande">
-					  		<tr>
-						      <td>${commande.nomplat }</td>
-						      <td>${commande.quantite }</td>
-						    </tr>
-					  	</c:forEach>
-					  	<tr>
-					  		<td></td>
-					  		<td>
-					  			<a class="btn btn-success" href="${pageContext.request.contextPath }/valider-commande">Valider</a>
-					  		</td>
-					  	</tr>
-					  </tbody>
-					</table>
+				<div class="col-md-4">
+				</div>
+				<div class="col-md-4">
+					<span class="text-success">Commande validé</span>
+				</div>
+				<div class="col-md-4">
 				</div>
 			</div>
 		</div>
