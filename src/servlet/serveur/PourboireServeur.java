@@ -24,7 +24,9 @@ import model.ServeurPourBoire;
 @WebServlet(name = "PourboireServeur", urlPatterns = {"/PourboireServeur"})
 public class PourboireServeur extends HttpServlet {
 
-    /**
+	private static final long serialVersionUID = 1L;
+
+	/**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
      *
@@ -33,18 +35,20 @@ public class PourboireServeur extends HttpServlet {
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
-    protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException, Exception {
+    protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, Exception {
         response.setContentType("text/html;charset=UTF-8");
+        
         try (PrintWriter out = response.getWriter()) {
             String date1 = request.getParameter("date1");
             String date2 = request.getParameter("date2");
+            
             if( (date1 != null) && (date2 != null) ) {
             	ServeurPourBoire[] serveurPourBoire = new ServeurPourBoire().getPouboire(date1, date2);
                 request.setAttribute("serveurPourBoire", serveurPourBoire);
             }
-            RequestDispatcher dispat = request.getRequestDispatcher("PourBoire.jsp");
-            dispat.forward(request,response);
+            
+            request.setAttribute("page", "PourBoire");
+            request.getRequestDispatcher("admin/template.jsp").forward(request,response);
         }
     }
 
