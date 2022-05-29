@@ -36,9 +36,6 @@
 
     <a href="#" class="logo"><i class="fas fa-utensils"></i>resto.</a>
 
-    <nav class="navbar">
-        <a href="${pageContext.request.contextPath }/finir-commande">Nouvelle commande</a>
-    </nav>
 </header>
 
 <!-- header section ends-->
@@ -46,46 +43,32 @@
 <!-- home section starts  -->
 
 <article>
+		
 		<div class="container">
 			<div class="row">
 				<div class="col-md-12 text-center">
-					<h1>Addition du table <b>${commande.idTable }</b></h1>
+					<h1>Payer le commande "${commande.idCommande }"</h1>
 				</div>
 			</div>
 			<div class="row">
-				<div class="col-md-12">
-					<b>Référence:</b> ${commande.idCommande }
-				</div>
-			</div>
-			<div class="row">
-				<div class="col-md-12">
-					<table class="table table-success">
-					  <thead>
-					    <tr>
-					      <th scope="col">Plat</th>
-					      <th scope="col">Nombre</th>
-					      <th scope="col">Prix unitaire</th>
-					      <th scope="col">Montant</th>
-					    </tr>
-					  </thead>
-					  <tbody>
-					  	<c:forEach items="${commandes }" var="commande">
-					  		<tr>
-						      <td>${commande.nomplat }</td>
-						      <td>${commande.quantite }</td>
-						      <td>${commande.prixplat }Ar</td>
-						      <td>${commande.prixplat * commande.quantite }Ar</td>
-						    </tr>
-					  	</c:forEach>
-					  	<tr>
-					  		<td colspan="3" class="text-end"><b>Total</b></td>
-					  		<td>
-					  			${montantAddition }Ar
-					  		</td>
-					  	</tr>
-					  </tbody>
-					</table>
-				</div>
+				<form action="${pageContext.request.contextPath }/insert-paiement">
+				  <div class="form-group" style="display: none;">
+				    <input type="text" class="form-control" id="idCommande" name="idCommande" value="${commande.idCommande }">
+				  </div>
+				  <div class="form-group">
+				    <label for="sommepaye">Montant</label>
+				    <input type="number" class="form-control" id="sommepaye" name="sommepaye" value="${commande.addition - commande.paye }" max="${commande.addition - commande.paye }">
+				  </div>
+				  <div class="form-group">
+				    <label for="idtypepaiement">Type de paiement</label>
+				    <select class="form-control" id="idtypepaiement" name="idtypepaiement">
+				      <c:forEach items="${typePaiements }" var="typePaiement">
+					      <option value="${typePaiement.idtypepaiement }">${typePaiement.nompaiement }</option>
+				      </c:forEach>
+				    </select>
+				  </div>
+				  <button type="submit" class="btn btn-success">Payer</button>
+				</form>
 			</div>
 		</div>
     

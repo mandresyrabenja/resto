@@ -36,9 +36,6 @@
 
     <a href="#" class="logo"><i class="fas fa-utensils"></i>resto.</a>
 
-    <nav class="navbar">
-        <a href="${pageContext.request.contextPath }/finir-commande">Nouvelle commande</a>
-    </nav>
 </header>
 
 <!-- header section ends-->
@@ -46,15 +43,11 @@
 <!-- home section starts  -->
 
 <article>
+		
 		<div class="container">
 			<div class="row">
 				<div class="col-md-12 text-center">
-					<h1>Addition du table <b>${commande.idTable }</b></h1>
-				</div>
-			</div>
-			<div class="row">
-				<div class="col-md-12">
-					<b>Référence:</b> ${commande.idCommande }
+					<h1>Liste des commandes non payés</h1>
 				</div>
 			</div>
 			<div class="row">
@@ -62,27 +55,32 @@
 					<table class="table table-success">
 					  <thead>
 					    <tr>
-					      <th scope="col">Plat</th>
-					      <th scope="col">Nombre</th>
-					      <th scope="col">Prix unitaire</th>
-					      <th scope="col">Montant</th>
+					      <th scope="col">Date</th>
+					      <th scope="col">Commande</th>
+					      <th scope="col">Table</th>
+					      <th scope="col">Addition</th>
+					      <th scope="col">Paye</th>
+					      <th scope="col">Restant</th>
+					      <th scope="col">Opération</th>
 					    </tr>
 					  </thead>
 					  <tbody>
-					  	<c:forEach items="${commandes }" var="commande">
+					  	<c:forEach items="${commandeNonPayes }" var="commandeNonPaye">
 					  		<tr>
-						      <td>${commande.nomplat }</td>
-						      <td>${commande.quantite }</td>
-						      <td>${commande.prixplat }Ar</td>
-						      <td>${commande.prixplat * commande.quantite }Ar</td>
+						      <td>${commandeNonPaye.dateCommande }</td>
+						      <td>${commandeNonPaye.idCommande }</td>
+						      <td>${commandeNonPaye.idTable }</td>
+						      <td>${commandeNonPaye.addition }Ar</td>
+						      <td>${commandeNonPaye.paye }Ar</td>
+						      <td>${commandeNonPaye.addition - commandeNonPaye.paye }Ar</td>
+						      <td>
+						      	<a class="btn btn success"
+						      		 href="${pageContext.request.contextPath }/payer-commande?idCommande=${commandeNonPaye.idCommande }">
+						      		Payer
+					      		</a>
+						      </td>
 						    </tr>
 					  	</c:forEach>
-					  	<tr>
-					  		<td colspan="3" class="text-end"><b>Total</b></td>
-					  		<td>
-					  			${montantAddition }Ar
-					  		</td>
-					  	</tr>
 					  </tbody>
 					</table>
 				</div>

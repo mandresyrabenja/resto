@@ -2,9 +2,12 @@ package servlet.commande;
 
 import java.io.IOException;
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
+import java.time.LocalDate;
 import java.util.List;
 
 import javax.servlet.ServletException;
@@ -16,6 +19,8 @@ import javax.servlet.http.HttpSession;
 
 import database.DBConnection;
 import database.DatabaseAccess;
+import model.Commande;
+import model.Paiement;
 import model.commande.PlatCommande;
 
 /**
@@ -57,6 +62,31 @@ public class ValiderCommande extends HttpServlet {
 					.reduce(0.0, (partial, commande) -> partial + (commande.getPrixplat() * commande.getQuantite()), Double::sum );
 				request.setAttribute("montantAddition", montantAddition);
 
+				// Mise à jour du montant du commande dans le base de données
+				sql = "UPDATE commande SET addition = ? WHERE idcommande = ?";
+				try(PreparedStatement updateAdditionStatement = connection.prepareStatement(sql) ) {
+					updateAdditionStatement.setDouble(1, montantAddition);
+					updateAdditionStatement.setString(2, idCommande);
+					updateAdditionStatement.executeUpdate();
+					
+				}
+				
+				// Paiement par défaut du commande
+				sql = "INSERT INTO paiement(idpaiement, idcommande, idtypepaiement, sommepaye, datepaiement) "
+						+ " VALUES(nextval('paiementseq'), ?, '1', 0.0, ?)";
+				try(PreparedStatement paiementStatement = connection.prepareStatement(sql)) {
+					paiementStatement.setString(1, idCommande);
+					paiementStatement.setDate(2, Date.valueOf(LocalDate.now()));
+					paiementStatement.executeUpdate();
+					
+				}
+				
+				// Information du commande pour l'affichage
+				Commande filtre = new Commande();
+				filtre.setIdCommande(idCommande);
+				Commande commande = DatabaseAccess.find(filtre, connection).get(0);
+				request.setAttribute("commande", commande);
+				
 				request.getRequestDispatcher("commande/commande-valide.jsp").forward(request, response);
 			} catch (SQLException e) {
 				e.printStackTrace();
