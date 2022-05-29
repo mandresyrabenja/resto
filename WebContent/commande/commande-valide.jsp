@@ -49,7 +49,12 @@
 		<div class="container">
 			<div class="row">
 				<div class="col-md-12 text-center">
-					<h1>Addition</h1>
+					<h1>Addition du table <b>${commande.idTable }</b></h1>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-md-12">
+					<b>Référence:</b> ${commande.idCommande }
 				</div>
 			</div>
 			<div class="row">
