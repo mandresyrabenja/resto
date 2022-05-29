@@ -36,6 +36,9 @@
 
     <a href="#" class="logo"><i class="fas fa-utensils"></i>resto.</a>
 
+    <nav class="navbar">
+        <a href="${pageContext.request.contextPath }/finir-commande">Nouvelle commande</a>
+    </nav>
 </header>
 
 <!-- header section ends-->

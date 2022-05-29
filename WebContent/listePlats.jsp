@@ -42,6 +42,7 @@
     <a href="#" class="logo"><i class="fas fa-utensils"></i>resto.</a>
 
     <nav id="navbar_top" class="navbar">
+    	<a href="${pageContext.request.contextPath }/liste-commande">Liste des plats commandés</a>
   	</nav>
 
 
@@ -93,11 +94,6 @@
                          </form>
              </div>
              <% }%>
-         </div>
-         <div	class="row">
-         	<div class="col-md-12">
-         		<a class="btn btn-primary" href="${pageContext.request.contextPath }/liste-commande">Liste des plats commandés</a>
-         	</div>
          </div>
      </div>
 
