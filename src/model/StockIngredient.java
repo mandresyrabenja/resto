@@ -5,10 +5,12 @@
  */
 package model;
 
-import database.DBConnection;
-import database.DBTable;
 import java.sql.Connection;
 import java.util.Vector;
+
+import database.DBConnection;
+import database.DBTable;
+import database.DatabaseAccess;
 
 /**
  *
@@ -23,11 +25,25 @@ public class StockIngredient extends DBTable{
         return idIngredient;
     }
 
-    public void setIdIngredient(String idIngredient) {
+    public double getReste() {
+		return reste;
+	}
+
+	public void setReste(double reste) {
+		this.reste = reste;
+	}
+
+	public void setIdIngredient(String idIngredient) {
         this.idIngredient = idIngredient;
     }
 
-    public String getNomIngredient() {
+    @Override
+	public String toString() {
+		return "StockIngredient [idIngredient=" + idIngredient + ", nomIngredient=" + nomIngredient + ", reste=" + reste
+				+ "]";
+	}
+
+	public String getNomIngredient() {
         return nomIngredient;
     }
 
@@ -45,13 +61,12 @@ public class StockIngredient extends DBTable{
     
     public StockIngredient[] getStock() throws Exception {
         Connection con = DBConnection.psqlConnection();
-        String condition = "";
-        StockIngredient ingredientConsome = new StockIngredient();
-        ingredientConsome.setNomTable(" stockActuelle ");
-        Vector v = ingredientConsome.find(condition, con);
-        StockIngredient[] res = new StockIngredient[v.size()];
-        v.copyInto(res);
+
+        Vector<StockIngredient> vector = DatabaseAccess.find("select  *  from  stockActuelle", StockIngredient.class, con);
+        StockIngredient[] result = new StockIngredient[vector.size()];
+        vector.copyInto(result);
+        
         con.close();
-        return res;
+        return result;
     }
 }
