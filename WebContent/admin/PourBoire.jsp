@@ -14,7 +14,9 @@
         <div class="input-group flex-nowrap">
             <span class="input-group-text" id="addon-wrapping">Date fin :</span>
             <input type="date" class="form-control" placeholder="Username" aria-label="Username" aria-describedby="addon-wrapping" name="date2" required>
-              <button type="submit" class="btn btn-primary btn-sm" sytle> Voir</button>
+            <button type="submit" class="btn btn-primary btn-sm">
+				<i class="fas fa-search" id="search-icon"></i>
+			</button>
         </div>
     </div>
         </form>

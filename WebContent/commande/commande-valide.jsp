@@ -43,15 +43,40 @@
 <!-- home section starts  -->
 
 <article>
-
 		<div class="container">
 			<div class="row">
-				<div class="col-md-4">
+				<div class="col-md-12 text-center">
+					<h1>Addition</h1>
 				</div>
-				<div class="col-md-4">
-					<span class="text-success">Commande validé</span>
-				</div>
-				<div class="col-md-4">
+			</div>
+			<div class="row">
+				<div class="col-md-12">
+					<table class="table table-success">
+					  <thead>
+					    <tr>
+					      <th scope="col">Plat</th>
+					      <th scope="col">Nombre</th>
+					      <th scope="col">Prix unitaire</th>
+					      <th scope="col">Montant</th>
+					    </tr>
+					  </thead>
+					  <tbody>
+					  	<c:forEach items="${commandes }" var="commande">
+					  		<tr>
+						      <td>${commande.nomplat }</td>
+						      <td>${commande.quantite }</td>
+						      <td>${commande.prixplat }Ar</td>
+						      <td>${commande.prixplat * commande.quantite }Ar</td>
+						    </tr>
+					  	</c:forEach>
+					  	<tr>
+					  		<td colspan="3" class="text-end"><b>Total</b></td>
+					  		<td>
+					  			${montantAddition }Ar
+					  		</td>
+					  	</tr>
+					  </tbody>
+					</table>
 				</div>
 			</div>
 		</div>
